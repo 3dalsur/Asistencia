@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Informe de Asistencia</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { border: 1px solid #ccc; padding: 20px; border-radius: 8px; max-width: 500px; margin: auto; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input[type="file"], input[type="month"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #45a049; }
+        h1 { text-align: center; }
+        .reports-section { max-width: 500px; margin: 20px auto; border: 1px solid #eee; padding: 20px; border-radius: 8px; background-color: #f9f9f9; }
+        .reports-section h2 { text-align: center; color: #333; }
+        .reports-section ul { list-style: none; padding: 0; }
+        .reports-section li { margin-bottom: 10px; }
+        .reports-section a { display: block; padding: 10px; background-color: #007bff; color: white; text-decoration: none; border-radius: 4px; text-align: center; }
+        .reports-section a:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Generador de Informe de Asistencia</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="file">Seleccionar archivo de asistencia (.txt):</label>
+        <input type="file" name="file" id="file" accept=".txt" required>
+
+        <label for="month">Seleccionar mes (YYYY-MM):</label>
+        <input type="month" name="month" id="month" required>
+
+        <button type="submit">Generar Informe</button>
+    </form>
+
+    {% if reports %}
+    <div class="reports-section">
+        <h2>Informes Generados</h2>
+        <ul>
+            {% for eno, filename in reports.items() %}
+            <li>
+                <a href="{{ url_for('download_report', filename=filename) }}" download="{{ filename }}">
+                    Descargar Informe para {{ eno }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>
